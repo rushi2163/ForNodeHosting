@@ -1,12 +1,13 @@
 const express= require('express')
 const data=require('./SampleData.json')
+
+require("dotenv").config();
 const app =express()
 const cors = require("cors");
-app.listen(8000,()=>{console.log("server created");})
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
-
+const PORT=process.env.PORT
 app.use( bodyParser.json());
 // app.get('/user',(req,res)=>{
 //     res.send(data)
@@ -18,8 +19,13 @@ app.use( bodyParser.json());
 //     res.setHeader('X-header','custom header')
 //     res.json(user)
 // })
-app.use(cors())
-app.get('/',(req,res)=>{
+var corsOptions = {
+    origin: "*"
+  }
+app.use(cors(corsOptions))
+app.use(express.static('revision'))
+app.get('/user',(req,res)=>{
     console.log("called");
-    res.status(200).send({"message":"connected sucessfully"})
+    res.send({"message":"connected sucessfully"})
 })
+app.listen(PORT,()=>{console.log("server created");})
