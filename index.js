@@ -1,5 +1,6 @@
 const express= require('express')
 const data=require('./SampleData.json')
+const db=require('./database')
 
 require("dotenv").config();
 const app =express()
@@ -24,8 +25,18 @@ var corsOptions = {
   }
 app.use(cors(corsOptions))
 app.use(express.static('revision'))
-app.get('/user',(req,res)=>{
-    console.log("called");
-    res.send({"message":"connected sucessfully"})
+app.get('/user',async(req,res)=>{
+  db.query('select * from student',(err,result)=>{
+    if(err){
+      console.log(err.message);
+      res.status(500).send(err.message)
+    }
+    else{
+      console.log(result);
+      res.status(200).send(result)
+    }
+  })
+    // console.log("called");
+    // res.send({"message":"connected sucessfully"})
 })
 app.listen(PORT,()=>{console.log("server created");})
