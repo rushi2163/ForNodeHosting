@@ -25,7 +25,7 @@ var corsOptions = {
   }
 app.use(cors(corsOptions))
 app.use(express.static('revision'))
-app.get('/user',async(req,res)=>{
+app.get('/user',(req,res)=>{
   db.query('select * from student',(err,result)=>{
     if(err){
       console.log(err.message);
